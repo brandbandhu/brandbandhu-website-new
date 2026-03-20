@@ -1,11 +1,11 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { adminApi } from "@/lib/adminApi";
+import { supabase } from "@/lib/supabaseClient";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -15,7 +15,11 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      await adminApi.login(username, password);
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) throw signInError;
       navigate("/admin/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
@@ -32,14 +36,15 @@ const AdminLogin = () => {
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium mb-1">
-              Username
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
+              Email
             </label>
             <input
-              id="username"
+              id="email"
+              type="email"
               className="w-full rounded-md border border-border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-secondary"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               required
             />
           </div>

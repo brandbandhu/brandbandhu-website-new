@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { Clock, X } from "lucide-react";
 import Layout from "@/components/Layout";
 import FadeIn from "@/components/FadeIn";
-import { adminApi } from "@/lib/adminApi";
+import { contentApi, type BlogRecord } from "@/lib/contentApi";
 
 type BlogPost = {
-  id: number;
+  id: number | string;
   title: string;
   slug: string;
   excerpt: string;
@@ -82,10 +82,18 @@ const Blog = () => {
     const loadPosts = async () => {
       try {
         setError("");
-        const response = await fetch(`${adminApi.baseUrl}/api/blogs`);
-        if (!response.ok) throw new Error("Failed to load blogs");
-        const data = await response.json();
-        const apiPosts = Array.isArray(data) ? (data as BlogPost[]) : [];
+        const data = await contentApi.listPublicBlogs();
+        const apiPosts = data.map((post: BlogRecord) => ({
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt ?? "",
+          content: post.content,
+          category: post.category ?? undefined,
+          publishedAt: post.published_at,
+          createdAt: post.created_at,
+          imageUrl: post.image_url,
+        }));
         const merged = [...apiPosts];
         const seen = new Set(apiPosts.map((post) => post.slug || post.title));
 
@@ -142,11 +150,7 @@ const Blog = () => {
                   onClick={() => setSelectedPost(post)}
                 >
                   {post.imageUrl ? (
-                    <img
-                      src={`${adminApi.baseUrl}${post.imageUrl}`}
-                      alt={post.title}
-                      className="h-48 w-full object-cover"
-                    />
+                    <img src={post.imageUrl} alt={post.title} className="h-48 w-full object-cover" />
                   ) : (
                     <div className="h-48 bg-gradient-to-br from-secondary/10 to-accent/10 flex items-center justify-center">
                       <span className="font-heading font-bold text-3xl text-secondary/20">BB</span>
@@ -206,7 +210,7 @@ const Blog = () => {
 
             {selectedPost.imageUrl ? (
               <img
-                src={`${adminApi.baseUrl}${selectedPost.imageUrl}`}
+                src={selectedPost.imageUrl}
                 alt={selectedPost.title}
                 className="w-full h-64 object-cover rounded-xl mb-5"
               />
