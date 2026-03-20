@@ -68,7 +68,7 @@ const Index = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] bg-secondary/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="container relative z-10 pt-24 pb-16">
+        <div className="container relative z-10 pt-32 pb-16">
           <div className="max-w-5xl mx-auto text-center">
             <motion.span
               initial={{ opacity: 0, y: 24 }}

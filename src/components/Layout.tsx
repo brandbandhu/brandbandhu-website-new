@@ -1,6 +1,7 @@
 ﻿import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,13 +29,24 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const hasShownRef = useRef(false);
 
   useEffect(() => {
+    if (!isHome) {
+      setShowPopup(false);
+      return;
+    }
+
+    if (hasShownRef.current) return;
+    hasShownRef.current = true;
+
     const timer = window.setTimeout(() => {
       setShowPopup(true);
     }, 2500);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [isHome]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -92,7 +104,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,hsl(var(--primary))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary))_1px,transparent_1px)] [background-size:46px_46px]" />
       </div>
       <Header />
-      <main className="flex-1 relative z-10">{children}</main>
+      <main className={`flex-1 relative z-10 ${isHome ? "" : "pt-16 md:pt-20 lg:pt-24"}`}>{children}</main>
       <Footer />
 
       {showPopup ? (

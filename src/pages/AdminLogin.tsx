@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -15,6 +15,9 @@ const AdminLogin = () => {
     setError("");
 
     try {
+      if (!isSupabaseConfigured || !supabase) {
+        throw new Error("Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+      }
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,

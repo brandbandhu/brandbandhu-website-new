@@ -16,7 +16,7 @@ const values = [
 
 const About = () => (
   <Layout>
-    <section className="pt-32 pb-20 bg-hero relative overflow-hidden">
+    <section className="pt-28 pb-20 bg-hero relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-pulse-glow" />
       </div>
