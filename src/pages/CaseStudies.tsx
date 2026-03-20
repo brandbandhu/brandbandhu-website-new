@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import FadeIn from "@/components/FadeIn";
 import { Button } from "@/components/ui/button";
 import { contentApi, type CaseStudyRecord } from "@/lib/contentApi";
+import { isSupabaseConfigured } from "@/lib/supabaseClient";
 
 type CaseStudy = {
   id: number | string;
@@ -62,6 +63,10 @@ const CaseStudies = () => {
   useEffect(() => {
     const loadCaseStudies = async () => {
       try {
+        if (!isSupabaseConfigured) {
+          setLoading(false);
+          return;
+        }
         const data = await contentApi.listPublicCaseStudies();
         const mapped = data.map((item: CaseStudyRecord) => ({
           id: item.id,

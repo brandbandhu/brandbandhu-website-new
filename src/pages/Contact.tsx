@@ -8,14 +8,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "").trim().replace(/\/$/, "");
-const CONTACT_ENDPOINT = API_BASE ? `${API_BASE}/api/contact` : "/api/contact";
+const PRIVYR_WEBHOOK_URL =
+  (import.meta.env.VITE_PRIVYR_WEBHOOK_URL ?? "").trim() ||
+  "https://www.privyr.com/api/v1/incoming-leads/0vZfjMQw/cgVVSiYW";
 
 const contactInfo = [
   { icon: Phone, label: "Phone", value: "+91 8623829117", href: "tel:+918623829117" },
   { icon: Mail, label: "Email", value: "brandbandhu.praavi@gmail.com", href: "mailto:brandbandhu.praavi@gmail.com" },
   { icon: MapPin, label: "Address", value: "1st Floor, Anand Complex, Solapur - Pune Hwy, near Ambika Jewellers, Loni Kalbhor, Pune, Maharashtra 412201", href: "#" },
-  { icon: Clock, label: "Working Hours", value: "Mon-Sat, 10 AM - 7 PM", href: "#" },
+  { icon: Clock, label: "Working Hours", value: "Mon-Sat, 9 AM - 6 PM", href: "#" },
 ];
 
 const services = [
@@ -38,18 +39,29 @@ const Contact = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const service = String(formData.get("service") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+
     const payload = {
-      name: String(formData.get("name") ?? "").trim(),
-      email: String(formData.get("email") ?? "").trim(),
-      phone: String(formData.get("phone") ?? "").trim(),
-      service: String(formData.get("service") ?? "").trim(),
-      message: String(formData.get("message") ?? "").trim(),
+      name,
+      email,
+      phone,
+      source: "Website Contact Form",
+      notes: `Service: ${service}\nMessage: ${message}`,
+      fields: {
+        service,
+        message,
+        page: "Contact",
+      },
     };
 
     setLoading(true);
 
     try {
-      const response = await fetch(CONTACT_ENDPOINT, {
+      const response = await fetch(PRIVYR_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

@@ -1,5 +1,6 @@
 ﻿import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+import logo from "@/assets/Logo .png";
 
 const services = [
   { label: "SEO Services", path: "/services/seo" },
@@ -26,28 +27,34 @@ const Footer = () => (
     <div className="container py-16 relative z-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-accent flex items-center justify-center shadow-button">
-              <span className="font-heading font-bold text-accent-foreground text-lg">B</span>
-            </div>
-            <span className="font-heading font-bold text-xl">
-              Brand<span className="text-secondary">Bandhu</span>
-            </span>
+          <div className="mb-4">
+            <img src={logo} alt="BrandBandhu logo" className="w-28 h-28 md:w-32 md:h-32 object-contain" />
           </div>
           <p className="text-primary-foreground/70 text-sm leading-relaxed mb-6">
             A premium digital marketing agency focused on growth and performance marketing for ambitious brands.
           </p>
           <div className="flex gap-3">
-            {["facebook", "instagram", "linkedin", "twitter"].map((s) => (
-              <a
-                key={s}
-                href="#"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-secondary/25 flex items-center justify-center transition-colors text-xs font-heading font-semibold uppercase"
-                aria-label={s}
-              >
-                {s[0].toUpperCase()}
-              </a>
-            ))}
+            <a
+              href="#"
+              aria-label="Facebook"
+              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-secondary/25 flex items-center justify-center transition-colors"
+            >
+              <Facebook size={16} />
+            </a>
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-secondary/25 flex items-center justify-center transition-colors"
+            >
+              <Instagram size={16} />
+            </a>
+            <a
+              href="#"
+              aria-label="LinkedIn"
+              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-secondary/25 flex items-center justify-center transition-colors"
+            >
+              <Linkedin size={16} />
+            </a>
           </div>
         </div>
 
@@ -110,6 +117,3 @@ const Footer = () => (
 );
 
 export default Footer;
-
-
-

@@ -205,45 +205,53 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="w-8 h-8 border-2 border-secondary border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-[#081227]">
+        <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="min-h-screen bg-[#081227] text-slate-100 p-6">
       <div className="max-w-6xl mx-auto space-y-8">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h1 className="font-heading text-3xl font-bold">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage blogs and case studies from here.</p>
+        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-r from-slate-900/70 via-slate-900/40 to-cyan-900/20 p-6 md:p-8 shadow-[0_40px_90px_-60px_rgba(8,18,39,0.95)] overflow-hidden">
+          <div className="absolute -top-20 -right-16 w-56 h-56 bg-cyan-500/20 blur-3xl rounded-full" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-700/20 blur-3xl rounded-full" />
+          <div className="relative flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/70 mb-2">Admin Workspace</p>
+              <h1 className="font-heading text-3xl md:text-4xl font-bold text-white">Content Control Center</h1>
+              <p className="text-sm text-slate-300 mt-2">Manage blogs and case studies from here.</p>
+            </div>
+            <button
+              onClick={onLogout}
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
+            >
+              Logout
+            </button>
           </div>
-          <button onClick={onLogout} className="rounded-md border border-border px-4 py-2 font-medium hover:bg-muted">
-            Logout
-          </button>
         </div>
 
-        {message ? <p className="text-green-600">{message}</p> : null}
-        {error ? <p className="text-destructive">{error}</p> : null}
+        {message ? <p className="text-sm text-emerald-300">{message}</p> : null}
+        {error ? <p className="text-sm text-rose-300">{error}</p> : null}
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <form onSubmit={submitBlog} className="rounded-2xl border border-border bg-card p-5 space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
+          <form onSubmit={submitBlog} className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 space-y-3 shadow-[0_20px_60px_-40px_rgba(8,18,39,0.95)]">
+            <h2 className="font-heading text-xl font-semibold text-white">
               {editingBlogId ? "Edit Blog" : "Create Blog"}
             </h2>
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Title" value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} required />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Slug (example: my-first-blog)" value={blogSlug} onChange={(e) => setBlogSlug(e.target.value)} required />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Category (optional)" value={blogCategory} onChange={(e) => setBlogCategory(e.target.value)} />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Excerpt" value={blogExcerpt} onChange={(e) => setBlogExcerpt(e.target.value)} />
-            <textarea className="w-full rounded-md border border-border px-3 py-2 bg-background min-h-28" placeholder="Content" value={blogContent} onChange={(e) => setBlogContent(e.target.value)} required />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Title" value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} required />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Slug (example: my-first-blog)" value={blogSlug} onChange={(e) => setBlogSlug(e.target.value)} required />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Category (optional)" value={blogCategory} onChange={(e) => setBlogCategory(e.target.value)} />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Excerpt" value={blogExcerpt} onChange={(e) => setBlogExcerpt(e.target.value)} />
+            <textarea className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 min-h-28" placeholder="Content" value={blogContent} onChange={(e) => setBlogContent(e.target.value)} required />
             <input type="file" accept="image/*" onChange={(e) => setBlogImage(e.target.files?.[0] ?? null)} />
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-sm text-slate-300">
               <input type="checkbox" checked={blogPublished} onChange={(e) => setBlogPublished(e.target.checked)} />
               Published
             </label>
             <div className="flex flex-wrap gap-3">
-              <button type="submit" className="rounded-md bg-secondary text-secondary-foreground px-4 py-2 font-semibold">
+              <button type="submit" className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-2 text-sm font-semibold text-slate-900">
                 {editingBlogId ? "Update Blog" : "Save Blog"}
               </button>
               {editingBlogId ? (
@@ -259,7 +267,7 @@ const AdminDashboard = () => {
                     setBlogPublished(true);
                     setBlogImage(null);
                   }}
-                  className="rounded-md border border-border px-4 py-2 font-semibold hover:bg-muted"
+                  className="rounded-xl border border-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -267,25 +275,25 @@ const AdminDashboard = () => {
             </div>
           </form>
 
-          <form onSubmit={submitCaseStudy} className="rounded-2xl border border-border bg-card p-5 space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
+          <form onSubmit={submitCaseStudy} className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 space-y-3 shadow-[0_20px_60px_-40px_rgba(8,18,39,0.95)]">
+            <h2 className="font-heading text-xl font-semibold text-white">
               {editingCaseId ? "Edit Case Study" : "Create Case Study"}
             </h2>
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Title" value={csTitle} onChange={(e) => setCsTitle(e.target.value)} required />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Slug (example: retail-growth-story)" value={csSlug} onChange={(e) => setCsSlug(e.target.value)} required />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Client name" value={csClientName} onChange={(e) => setCsClientName(e.target.value)} />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Industry" value={csIndustry} onChange={(e) => setCsIndustry(e.target.value)} />
-            <textarea className="w-full rounded-md border border-border px-3 py-2 bg-background min-h-20" placeholder="Challenge" value={csChallenge} onChange={(e) => setCsChallenge(e.target.value)} required />
-            <textarea className="w-full rounded-md border border-border px-3 py-2 bg-background min-h-20" placeholder="Solution" value={csSolution} onChange={(e) => setCsSolution(e.target.value)} required />
-            <textarea className="w-full rounded-md border border-border px-3 py-2 bg-background min-h-20" placeholder="Results (one per line)" value={csResults} onChange={(e) => setCsResults(e.target.value)} required />
-            <input className="w-full rounded-md border border-border px-3 py-2 bg-background" placeholder="Tags (comma separated)" value={csTags} onChange={(e) => setCsTags(e.target.value)} />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Title" value={csTitle} onChange={(e) => setCsTitle(e.target.value)} required />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Slug (example: retail-growth-story)" value={csSlug} onChange={(e) => setCsSlug(e.target.value)} required />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Client name" value={csClientName} onChange={(e) => setCsClientName(e.target.value)} />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Industry" value={csIndustry} onChange={(e) => setCsIndustry(e.target.value)} />
+            <textarea className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 min-h-20" placeholder="Challenge" value={csChallenge} onChange={(e) => setCsChallenge(e.target.value)} required />
+            <textarea className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 min-h-20" placeholder="Solution" value={csSolution} onChange={(e) => setCsSolution(e.target.value)} required />
+            <textarea className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 min-h-20" placeholder="Results (one per line)" value={csResults} onChange={(e) => setCsResults(e.target.value)} required />
+            <input className="w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500" placeholder="Tags (comma separated)" value={csTags} onChange={(e) => setCsTags(e.target.value)} />
             <input type="file" accept="image/*" onChange={(e) => setCsImage(e.target.files?.[0] ?? null)} />
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-sm text-slate-300">
               <input type="checkbox" checked={csPublished} onChange={(e) => setCsPublished(e.target.checked)} />
               Published
             </label>
             <div className="flex flex-wrap gap-3">
-              <button type="submit" className="rounded-md bg-secondary text-secondary-foreground px-4 py-2 font-semibold">
+              <button type="submit" className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-2 text-sm font-semibold text-slate-900">
                 {editingCaseId ? "Update Case Study" : "Save Case Study"}
               </button>
               {editingCaseId ? (
@@ -304,7 +312,7 @@ const AdminDashboard = () => {
                     setCsPublished(true);
                     setCsImage(null);
                   }}
-                  className="rounded-md border border-border px-4 py-2 font-semibold hover:bg-muted"
+                  className="rounded-xl border border-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -314,26 +322,26 @@ const AdminDashboard = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="font-heading text-lg font-semibold mb-3">Existing Blogs</h3>
-            <ul className="space-y-2 text-sm">
-              {blogs.length === 0 ? <li className="text-muted-foreground">No blogs yet.</li> : null}
+          <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
+            <h3 className="font-heading text-lg font-semibold mb-3 text-white">Existing Blogs</h3>
+            <ul className="space-y-2 text-sm text-slate-200">
+              {blogs.length === 0 ? <li className="text-slate-400">No blogs yet.</li> : null}
               {blogs.map((blog) => (
-                <li key={blog.id} className="p-2 rounded border border-border/70">
-                  <p className="font-medium">{blog.title}</p>
-                  <p className="text-muted-foreground">/{blog.slug}</p>
+                <li key={blog.id} className="p-3 rounded-xl border border-white/10 bg-slate-950/40">
+                  <p className="font-medium text-white">{blog.title}</p>
+                  <p className="text-slate-400">/{blog.slug}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => onEditBlog(blog)}
-                      className="rounded-md border border-border px-3 py-1 text-xs font-semibold hover:bg-muted"
+                      className="rounded-lg border border-white/10 px-3 py-1 text-xs font-semibold text-white hover:bg-white/10"
                     >
                       Edit
                     </button>
                     <button
                       type="button"
                       onClick={() => onDeleteBlog(blog.id)}
-                      className="rounded-md border border-border px-3 py-1 text-xs font-semibold text-destructive hover:bg-muted"
+                      className="rounded-lg border border-white/10 px-3 py-1 text-xs font-semibold text-rose-300 hover:bg-white/10"
                     >
                       Delete
                     </button>
@@ -343,26 +351,26 @@ const AdminDashboard = () => {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="font-heading text-lg font-semibold mb-3">Existing Case Studies</h3>
-            <ul className="space-y-2 text-sm">
-              {caseStudies.length === 0 ? <li className="text-muted-foreground">No case studies yet.</li> : null}
+          <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
+            <h3 className="font-heading text-lg font-semibold mb-3 text-white">Existing Case Studies</h3>
+            <ul className="space-y-2 text-sm text-slate-200">
+              {caseStudies.length === 0 ? <li className="text-slate-400">No case studies yet.</li> : null}
               {caseStudies.map((item) => (
-                <li key={item.id} className="p-2 rounded border border-border/70">
-                  <p className="font-medium">{item.title}</p>
-                  <p className="text-muted-foreground">/{item.slug}</p>
+                <li key={item.id} className="p-3 rounded-xl border border-white/10 bg-slate-950/40">
+                  <p className="font-medium text-white">{item.title}</p>
+                  <p className="text-slate-400">/{item.slug}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => onEditCaseStudy(item)}
-                      className="rounded-md border border-border px-3 py-1 text-xs font-semibold hover:bg-muted"
+                      className="rounded-lg border border-white/10 px-3 py-1 text-xs font-semibold text-white hover:bg-white/10"
                     >
                       Edit
                     </button>
                     <button
                       type="button"
                       onClick={() => onDeleteCaseStudy(item.id)}
-                      className="rounded-md border border-border px-3 py-1 text-xs font-semibold text-destructive hover:bg-muted"
+                      className="rounded-lg border border-white/10 px-3 py-1 text-xs font-semibold text-rose-300 hover:bg-white/10"
                     >
                       Delete
                     </button>

@@ -205,20 +205,25 @@ const ServiceDetail = () => {
       </section>
 
       {/* Tools */}
-      <section className="py-20 bg-muted/50">
-        <div className="container max-w-4xl">
-          <FadeIn>
-            <SectionHeading label="Tools" title="Technologies We Use" />
-          </FadeIn>
-          <div className="flex flex-wrap justify-center gap-3">
-            {service.tools.map((t) => (
-              <span key={t} className="px-5 py-2.5 rounded-full bg-card shadow-card border border-border/50 text-sm font-medium text-foreground">
-                {t}
-              </span>
-            ))}
+      {slug !== "seo" ? (
+        <section className="py-20 bg-muted/50">
+          <div className="container max-w-4xl">
+            <FadeIn>
+              <SectionHeading label="Tools" title="Technologies We Use" />
+            </FadeIn>
+            <div className="flex flex-wrap justify-center gap-3">
+              {service.tools.map((t) => (
+                <span
+                  key={t}
+                  className="px-5 py-2.5 rounded-full bg-card shadow-card border border-border/50 text-sm font-medium text-foreground"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* FAQ */}
       <section className="py-20 bg-background">

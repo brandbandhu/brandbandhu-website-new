@@ -65,10 +65,10 @@ const About = () => (
 
     <section className="py-20 bg-background">
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-14 items-stretch">
           <FadeIn>
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-3xl section-surface flex items-center justify-center p-8">
+            <div className="relative h-full">
+              <div className="h-full rounded-3xl section-surface flex items-center justify-center p-8">
                 <div className="text-center">
                   <Lightbulb size={62} className="text-secondary mx-auto mb-4" />
                   <p className="font-heading font-semibold text-foreground text-lg">Founder’s Growth Philosophy</p>

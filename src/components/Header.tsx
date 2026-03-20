@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/Logo .png";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -17,6 +18,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const isHome = location.pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -29,19 +31,25 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "glass-panel shadow-card border-b border-border/60"
-          : "bg-transparent"
+        isHome && !scrolled
+          ? "bg-transparent"
+          : "bg-white/95 shadow-card border-b border-border/60 backdrop-blur"
       }`}
     >
-      <div className="container flex items-center justify-between h-16 md:h-20">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-accent flex items-center justify-center shadow-button transition-transform duration-300 group-hover:-translate-y-0.5">
-            <span className="font-heading font-bold text-secondary-foreground text-lg">B</span>
-          </div>
-          <span className="font-heading font-bold text-xl text-foreground">
-            Brand<span className="text-secondary">Bandhu</span>
-          </span>
+      <div className="w-full bg-[#0b1c3f] text-white">
+        <div className="container flex items-center justify-between h-9 text-xs md:text-sm">
+          <span className="font-semibold tracking-wide">Call Us: +91 8623829117</span>
+          <span className="font-semibold tracking-wide">Mail Us: brandbandhu.praavi@gmail.com</span>
+        </div>
+      </div>
+
+      <div className="container flex items-center justify-between h-16 md:h-20 lg:h-24">
+        <Link to="/" className="flex items-center group">
+          <img
+            src={logo}
+            alt="BrandBandhu logo"
+            className="h-10 md:h-12 lg:h-14 w-auto object-contain transition-transform duration-300 group-hover:-translate-y-0.5"
+          />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
@@ -49,10 +57,12 @@ const Header = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 location.pathname === item.path
                   ? "text-secondary bg-secondary/15 shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-white/70"
+                  : isHome && !scrolled
+                    ? "text-white/90 hover:text-white hover:bg-white/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/10"
               }`}
             >
               {item.label}
@@ -69,7 +79,7 @@ const Header = () => {
         </div>
 
         <button
-          className="lg:hidden p-2 rounded-lg text-foreground hover:bg-white/70 transition-colors"
+          className="lg:hidden p-2 rounded-lg text-foreground hover:bg-secondary/10 transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -83,7 +93,7 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden glass-panel border-b border-border/70 overflow-hidden"
+            className="lg:hidden bg-white/95 border-b border-border/70 backdrop-blur overflow-hidden"
           >
             <nav className="container py-4 flex flex-col gap-1">
               {navItems.map((item) => (
@@ -93,7 +103,7 @@ const Header = () => {
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                     location.pathname === item.path
                       ? "text-secondary bg-secondary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-white/70"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/10"
                   }`}
                 >
                   {item.label}

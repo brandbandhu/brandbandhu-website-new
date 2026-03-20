@@ -5,6 +5,7 @@ import Layout from "@/components/Layout";
 import FadeIn from "@/components/FadeIn";
 import SectionHeading from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
+import heroVideo from "@/assets/Untitled design.mp4";
 
 const services = [
   { icon: Search, title: "SEO Services", desc: "Rank higher with technical SEO, content strategy, and authority growth.", path: "/services/seo" },
@@ -25,13 +26,45 @@ const process = [
   { step: "04", title: "Optimize Weekly", desc: "Data-led improvements with transparent reporting and action priorities." },
 ];
 
+const heroHighlights = [
+  {
+    icon: LineChart,
+    title: "Weekly performance reporting",
+    desc: "Clear KPIs with momentum tracking.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Dedicated growth strategist",
+    desc: "Senior oversight on every sprint.",
+  },
+  {
+    icon: BadgeCheck,
+    title: "ROI-first campaign execution",
+    desc: "Spend tied to measurable outcomes.",
+  },
+];
+
 const Index = () => {
   return (
     <Layout>
       <section className="relative min-h-screen flex items-center bg-hero overflow-hidden">
+        <div className="absolute inset-0">
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            src={heroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#07122d]/80 via-[#0b1b3a]/75 to-[#091833]/85" />
+        </div>
+
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-pulse-glow" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1.3s" }} />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse-glow" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1.3s" }} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] bg-secondary/10 rounded-full blur-3xl" />
         </div>
 
@@ -41,7 +74,7 @@ const Index = () => {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-block px-4 py-1.5 rounded-full bg-secondary/20 text-secondary text-xs font-heading font-semibold uppercase tracking-wider mb-6 border border-secondary/30"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 text-cyan-200 text-[11px] font-heading font-semibold uppercase tracking-[0.3em] mb-6 border border-white/20 backdrop-blur"
             >
               Performance-Led Digital Marketing Agency
             </motion.span>
@@ -50,17 +83,19 @@ const Index = () => {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.08 }}
-              className="font-heading font-extrabold text-4xl md:text-6xl lg:text-7xl text-primary-foreground leading-[1.08] mb-6"
+              className="font-heading font-extrabold text-4xl md:text-6xl lg:text-7xl text-white leading-[1.12] mb-6 pb-2"
             >
               Turn Your Brand Into a
-              <span className="text-gradient"> Revenue Engine</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-lime-300 pt-1 pb-2">
+                Revenue Engine
+              </span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.16 }}
-              className="text-lg md:text-xl text-primary-foreground/75 max-w-3xl mx-auto mb-10 leading-relaxed"
+              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed"
             >
               From SEO and paid media to social and conversion optimization, we build integrated growth systems that deliver measurable business outcomes.
             </motion.p>
@@ -71,16 +106,26 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.24 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Link to="/contact">
-                <Button size="lg" variant="secondary" className="shadow-button font-heading font-semibold text-base px-8 h-13">
-                  Book Growth Audit
-                  <ArrowRight className="ml-2" size={18} />
-                </Button>
+              <Link to="/contact" className="group">
+                <div className="rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 p-[2px] shadow-[0_20px_50px_-30px_rgba(56,189,248,0.8)]">
+                  <Button
+                    size="lg"
+                    className="rounded-full bg-[#0b1a38]/70 text-white font-heading font-semibold text-base px-9 h-13 backdrop-blur border border-white/10 group-hover:bg-[#0b1a38]/90"
+                  >
+                    Book Growth Audit
+                    <ArrowRight className="ml-2" size={18} />
+                  </Button>
+                </div>
               </Link>
-              <Link to="/case-studies">
-                <Button size="lg" variant="outline" className="font-heading font-semibold text-base px-8 h-13 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
-                  View Case Studies
-                </Button>
+              <Link to="/case-studies" className="group">
+                <div className="rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 p-[2px] shadow-[0_20px_50px_-30px_rgba(56,189,248,0.8)]">
+                  <Button
+                    size="lg"
+                    className="rounded-full bg-[#0b1a38]/70 text-white font-heading font-semibold text-base px-9 h-13 backdrop-blur border border-white/10 group-hover:bg-[#0b1a38]/90"
+                  >
+                    View Case Studies
+                  </Button>
+                </div>
               </Link>
             </motion.div>
 
@@ -90,15 +135,25 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.32 }}
               className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4"
             >
-              <div className="glass-panel rounded-xl px-4 py-3 text-sm text-primary-foreground/85">Weekly performance reporting</div>
-              <div className="glass-panel rounded-xl px-4 py-3 text-sm text-primary-foreground/85">Dedicated growth strategist</div>
-              <div className="glass-panel rounded-xl px-4 py-3 text-sm text-primary-foreground/85">ROI-first campaign execution</div>
+              {heroHighlights.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur px-4 py-4 text-left shadow-[0_20px_40px_-30px_rgba(3,12,36,0.9)]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center">
+                      <item.icon size={18} className="text-cyan-200" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">{item.title}</p>
+                      <p className="text-xs text-white/70">{item.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 md:py-24 bg-background/50">
+      <section className="pt-20 pb-12 md:pt-24 md:pb-14 bg-background/50">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <FadeIn>
@@ -156,7 +211,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-background">
+      <section className="pt-12 pb-20 md:pt-14 md:pb-24 bg-background">
         <div className="container">
           <FadeIn>
             <SectionHeading

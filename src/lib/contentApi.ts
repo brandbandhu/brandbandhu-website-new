@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 const STORAGE_BUCKET = (import.meta.env.VITE_SUPABASE_STORAGE_BUCKET ?? "content").trim();
 
@@ -54,21 +54,30 @@ type CaseStudyInput = {
 
 const toStringOrEmpty = (value: string | null | undefined) => value ?? "";
 
+const requireSupabase = () => {
+  if (!supabase || !isSupabaseConfigured) {
+    throw new Error("Supabase is not configured.");
+  }
+  return supabase;
+};
+
 const uploadImage = async (folder: "blogs" | "case-studies", id: string, file: File) => {
+  const client = requireSupabase();
   const safeName = file.name.replace(/\s+/g, "-");
   const path = `${folder}/${id}/${Date.now()}-${safeName}`;
-  const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(path, file, {
+  const { error } = await client.storage.from(STORAGE_BUCKET).upload(path, file, {
     upsert: true,
     contentType: file.type || "application/octet-stream",
   });
   if (error) throw error;
-  const { data } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+  const { data } = client.storage.from(STORAGE_BUCKET).getPublicUrl(path);
   return data.publicUrl;
 };
 
 export const contentApi = {
   async listPublicBlogs() {
-    const { data, error } = await supabase
+    const client = requireSupabase();
+    const { data, error } = await client
       .from("blog_posts")
       .select("*")
       .eq("published", true)
@@ -79,7 +88,8 @@ export const contentApi = {
   },
 
   async listPublicCaseStudies() {
-    const { data, error } = await supabase
+    const client = requireSupabase();
+    const { data, error } = await client
       .from("case_studies")
       .select("*")
       .eq("published", true)
@@ -90,7 +100,8 @@ export const contentApi = {
   },
 
   async listAdminBlogs() {
-    const { data, error } = await supabase
+    const client = requireSupabase();
+    const { data, error } = await client
       .from("blog_posts")
       .select("*")
       .order("created_at", { ascending: false });
@@ -99,7 +110,8 @@ export const contentApi = {
   },
 
   async listAdminCaseStudies() {
-    const { data, error } = await supabase
+    const client = requireSupabase();
+    const { data, error } = await client
       .from("case_studies")
       .select("*")
       .order("created_at", { ascending: false });
@@ -108,8 +120,9 @@ export const contentApi = {
   },
 
   async createBlog(input: BlogInput, image?: File | null) {
+    const client = requireSupabase();
     const now = new Date().toISOString();
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from("blog_posts")
       .insert({
         title: input.title,
@@ -127,7 +140,7 @@ export const contentApi = {
 
     if (image) {
       const imageUrl = await uploadImage("blogs", record.id, image);
-      const { data: updated, error: updateError } = await supabase
+      const { data: updated, error: updateError } = await client
         .from("blog_posts")
         .update({ image_url: imageUrl })
         .eq("id", record.id)
@@ -141,8 +154,9 @@ export const contentApi = {
   },
 
   async updateBlog(id: string, input: BlogInput, image?: File | null) {
+    const client = requireSupabase();
     const now = new Date().toISOString();
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from("blog_posts")
       .update({
         title: input.title,
@@ -161,7 +175,7 @@ export const contentApi = {
 
     if (image) {
       const imageUrl = await uploadImage("blogs", record.id, image);
-      const { data: updated, error: updateError } = await supabase
+      const { data: updated, error: updateError } = await client
         .from("blog_posts")
         .update({ image_url: imageUrl })
         .eq("id", record.id)
@@ -175,13 +189,15 @@ export const contentApi = {
   },
 
   async deleteBlog(id: string) {
-    const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+    const client = requireSupabase();
+    const { error } = await client.from("blog_posts").delete().eq("id", id);
     if (error) throw error;
   },
 
   async createCaseStudy(input: CaseStudyInput, image?: File | null) {
+    const client = requireSupabase();
     const now = new Date().toISOString();
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from("case_studies")
       .insert({
         title: input.title,
@@ -202,7 +218,7 @@ export const contentApi = {
 
     if (image) {
       const imageUrl = await uploadImage("case-studies", record.id, image);
-      const { data: updated, error: updateError } = await supabase
+      const { data: updated, error: updateError } = await client
         .from("case_studies")
         .update({ image_url: imageUrl })
         .eq("id", record.id)
@@ -216,8 +232,9 @@ export const contentApi = {
   },
 
   async updateCaseStudy(id: string, input: CaseStudyInput, image?: File | null) {
+    const client = requireSupabase();
     const now = new Date().toISOString();
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from("case_studies")
       .update({
         title: input.title,
@@ -239,7 +256,7 @@ export const contentApi = {
 
     if (image) {
       const imageUrl = await uploadImage("case-studies", record.id, image);
-      const { data: updated, error: updateError } = await supabase
+      const { data: updated, error: updateError } = await client
         .from("case_studies")
         .update({ image_url: imageUrl })
         .eq("id", record.id)
@@ -253,8 +270,8 @@ export const contentApi = {
   },
 
   async deleteCaseStudy(id: string) {
-    const { error } = await supabase.from("case_studies").delete().eq("id", id);
+    const client = requireSupabase();
+    const { error } = await client.from("case_studies").delete().eq("id", id);
     if (error) throw error;
   },
 };
-

@@ -4,6 +4,7 @@ import { Clock, X } from "lucide-react";
 import Layout from "@/components/Layout";
 import FadeIn from "@/components/FadeIn";
 import { contentApi, type BlogRecord } from "@/lib/contentApi";
+import { isSupabaseConfigured } from "@/lib/supabaseClient";
 
 type BlogPost = {
   id: number | string;
@@ -20,42 +21,7 @@ type BlogPost = {
 };
 
 const legacyPosts: BlogPost[] = [
-  {
-    id: -1,
-    title: "Best Digital Marketing Agency in Pune - Why BrandBandhu Stands Out",
-    slug: "best-digital-marketing-agency-in-pune",
-    excerpt:
-      "Discover what makes BrandBandhu the top choice for businesses looking for a results-driven digital marketing partner in Pune.",
-    content:
-      "Discover what makes BrandBandhu the top choice for businesses looking for a results-driven digital marketing partner in Pune.",
-    category: "Agency",
-    dateLabel: "Mar 1, 2026",
-    readTimeLabel: "5 min read",
-  },
-  {
-    id: -2,
-    title: "SEO Strategies for Small Businesses in 2026",
-    slug: "seo-strategies-for-small-businesses-2026",
-    excerpt:
-      "Learn proven SEO tactics that small businesses can implement to compete with larger competitors and rank higher on Google.",
-    content:
-      "Learn proven SEO tactics that small businesses can implement to compete with larger competitors and rank higher on Google.",
-    category: "SEO",
-    dateLabel: "Feb 20, 2026",
-    readTimeLabel: "7 min read",
-  },
-  {
-    id: -3,
-    title: "Meta Ads Lead Generation: The Complete Guide",
-    slug: "meta-ads-lead-generation-complete-guide",
-    excerpt:
-      "Step-by-step guide to creating high-converting Facebook and Instagram ad campaigns for lead generation.",
-    content:
-      "Step-by-step guide to creating high-converting Facebook and Instagram ad campaigns for lead generation.",
-    category: "Paid Ads",
-    dateLabel: "Feb 15, 2026",
-    readTimeLabel: "8 min read",
-  },
+  // Legacy blog placeholders removed.
 ];
 
 const getReadTime = (content: string) => {
@@ -82,6 +48,10 @@ const Blog = () => {
     const loadPosts = async () => {
       try {
         setError("");
+        if (!isSupabaseConfigured) {
+          setLoading(false);
+          return;
+        }
         const data = await contentApi.listPublicBlogs();
         const apiPosts = data.map((post: BlogRecord) => ({
           id: post.id,
@@ -151,11 +121,7 @@ const Blog = () => {
                 >
                   {post.imageUrl ? (
                     <img src={post.imageUrl} alt={post.title} className="h-48 w-full object-cover" />
-                  ) : (
-                    <div className="h-48 bg-gradient-to-br from-secondary/10 to-accent/10 flex items-center justify-center">
-                      <span className="font-heading font-bold text-3xl text-secondary/20">BB</span>
-                    </div>
-                  )}
+                  ) : null}
                   <div className="p-6 flex flex-col flex-1">
                     <span className="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-heading font-semibold w-fit mb-3">
                       {post.category || "Blog"}
@@ -182,11 +148,11 @@ const Blog = () => {
 
       {selectedPost ? (
         <div
-          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4"
           onClick={() => setSelectedPost(null)}
         >
           <div
-            className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-card border border-border p-6 md:p-8"
+            className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-card border border-border p-6 md:p-8 mt-16"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4 mb-4">
